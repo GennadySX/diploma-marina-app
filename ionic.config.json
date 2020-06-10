@@ -1,0 +1,7 @@
+{
+  "name": "edubrains",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
