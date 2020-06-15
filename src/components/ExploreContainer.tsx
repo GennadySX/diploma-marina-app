@@ -1,17 +1,30 @@
 import React from 'react';
 import './ExploreContainer.css';
 
-interface ContainerProps {
-  name: string;
+type Props = {
+    name: string,
+    onClick: any
 }
 
-const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
-  return (
-    <div className="container">
-      <strong>{name}</strong>
-      <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-    </div>
-  );
+class ExploreContainer extends React.Component<Props>{
+   constructor(props: any) {
+       super(props);
+       this.state = {}
+
+       console.log('props is', this.props)
+   }
+
+
+
+
+    render(){
+        return (
+            <div className="container" >
+                <strong onClick={() => this.props.onClick() }>{this.props.name}</strong>
+                <p>Нажмите чтобы пройти в стр курсов</p>
+            </div>
+        );
+    }
 };
 
 export default ExploreContainer;
