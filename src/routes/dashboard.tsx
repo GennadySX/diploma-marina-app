@@ -11,31 +11,19 @@ import AuthPage from "../pages/Auth";
 import React from "react";
 import {heartCircleOutline, libraryOutline, personCircleOutline} from "ionicons/icons";
 import {Storage} from "../helpers/Storage";
-import Dashboard from "./dashboard";
 
- class Routes extends React.Component<any, any> {
+ class Dashboard extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
             location: "/auth",
-            isLogin: true,
         }
 
     }
 
-    componentDidMount(): void {
-        //console.log('path is ')
-        Storage.get('is', (result: any) => result && result.value ? this.setState({isLogin: false}) : null)
-    }
-
-
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return (
             <IonReactRouter>
-                <Route  path="/auth" component={() => <AuthPage/>} exact={true}/>
-                <Route path="/" render={() => <Redirect to={"/auth"}/>} exact={true}/>
-                {
-                    !this.state.isLogin ?
                         <IonTabs>
                             <IonRouterOutlet>
                                 <Route path="/course" component={CoursePage} exact={true}/>
@@ -57,13 +45,10 @@ import Dashboard from "./dashboard";
                                 </IonTabButton>
                             </IonTabBar>
                         </IonTabs>
-                        : null
-                }
             </IonReactRouter>
-
         );
     }
 }
 
 
-export default Routes
+export default Dashboard
