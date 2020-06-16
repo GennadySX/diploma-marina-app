@@ -1,7 +1,7 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import '../styles/Liked.sass';
+import {IonContent, IonHeader, IonList, IonPage, IonTitle, IonToolbar} from '@ionic/react';
+import {courseList} from "../json/courseList";
+import Card from "../components/Card";
 
 const Liked: React.FC = () => {
   return (
@@ -11,13 +11,19 @@ const Liked: React.FC = () => {
           <IonTitle>Избранные</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 2</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-      </IonContent>
+        <IonContent>
+            <IonList>
+                {courseList.map((course, index) =>
+                    <Card
+                        key={index}
+                        image={course.image}
+                        title={course.title}
+                        subTitle={course.subTitle}
+                        description={course.description}
+                    />
+                )}
+            </IonList>
+        </IonContent>
     </IonPage>
   );
 };

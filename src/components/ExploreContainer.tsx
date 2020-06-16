@@ -1,12 +1,8 @@
 import React from 'react';
 import './ExploreContainer.css';
 
-type Props = {
-    name: string,
-    onClick: any
-}
 
-class ExploreContainer extends React.Component<Props>{
+class ExploreContainer extends React.Component<any, any>{
    constructor(props: any) {
        super(props);
        this.state = {}

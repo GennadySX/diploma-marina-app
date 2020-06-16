@@ -11,7 +11,6 @@ import AuthPage from "../pages/Auth";
 import React from "react";
 import {heartCircleOutline, libraryOutline, personCircleOutline} from "ionicons/icons";
 import {Storage} from "../helpers/Storage";
-import Dashboard from "./dashboard";
 
  class Routes extends React.Component<any, any> {
     constructor(props: any) {
@@ -20,11 +19,9 @@ import Dashboard from "./dashboard";
             location: "/auth",
             isLogin: true,
         }
-
     }
 
     componentDidMount(): void {
-        //console.log('path is ')
         Storage.get('is', (result: any) => result && result.value ? this.setState({isLogin: false}) : null)
     }
 
@@ -32,15 +29,15 @@ import Dashboard from "./dashboard";
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return (
             <IonReactRouter>
-                <Route  path="/auth" component={() => <AuthPage/>} exact={true}/>
+                <Route  path="/auth" component={() => <AuthPage login={(e:boolean) => this.setState({isLogin: e})}/>} exact={true}/>
                 <Route path="/" render={() => <Redirect to={"/auth"}/>} exact={true}/>
                 {
                     !this.state.isLogin ?
                         <IonTabs>
                             <IonRouterOutlet>
                                 <Route path="/course" component={CoursePage} exact={true}/>
+                                <Route path="/profile" component={ProfilePage} exact={true}/>
                                 <Route path="/liked" component={LikedPage} exact={true}/>
-                                <Route path="/profile" component={ProfilePage}/>
                             </IonRouterOutlet>
                             <IonTabBar slot="bottom">
                                 <IonTabButton tab="course" href="/course">
@@ -57,7 +54,7 @@ import Dashboard from "./dashboard";
                                 </IonTabButton>
                             </IonTabBar>
                         </IonTabs>
-                        : null
+                        : <Redirect to={"/auth"}/>
                 }
             </IonReactRouter>
 
