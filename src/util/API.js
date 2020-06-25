@@ -4,15 +4,19 @@
 
 
 
-const origin = 'http://api.ru',
-    api = 'http://api.ru/api'
+const origin = 'http://localhost:8000',
+ api = 'http://localhost:8000/api'
 
 export const API = {
     origin: origin,
     api: api,
-    login: api+'/login',
-    register: api+'/register',
-    like: api+'/liked',
+    login: origin+'/auth/token/login/',
+    register: api+'/register/',
+    account: api+'/account/',
+    course: api+'/course/',
+
+
+    like: api+'/liked/',
     profile: api+'/profile',
 
 }

@@ -30,12 +30,12 @@ class Auth extends React.Component<any, any> {
         super(props);
         this.state = {
             isLogin: true,
-            login: 'gennadysx',
-            password: 'unlockCoder',
+            username: 'gennadysx',
+            password: 'unlock',
             confirmPassword: '',
             email: '',
-            firstName: '',
-            lastName: '',
+            first_name: '',
+            last_name: '',
 
         }
 
@@ -46,26 +46,56 @@ class Auth extends React.Component<any, any> {
     }
 
     middleWare() {
-        Storage.get('is', (result: any) => result && result.value ? this.fakeAuth(true) : null)
+        Storage.get('token', (result: any) => result && result.value ? this.redirect() : null)
     }
 
-    fakeAuth(e: any = null) {
+    /*fakeAuth(e: any = null) {
         Storage.set('is', 'token_asDS12123kas2312j312k3d12h3a1k23l1j23s1d23123halksjdhalksjdhlasjdhlaskjdhalkjsd').then(() => {
             this.props.login(false)
             this.props.history.push('/course')
         })
+    }*/
+
+    redirect() {
+        this.props.login(false)
+        this.props.history.push('/course')
     }
 
 
     sendLogin() {
         axios.post(API.login, this.state).then(({data}) => {
-            console.log('login result is', data)
+
+            if (data.auth_token) {
+                Storage.set('token', data.auth_token).then(() => this.getAccount(data.auth_token))
+            }
         })
     }
 
+
+
+    getAccount(token:any) {
+        axios.get(API.account, {
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }}).then(res => {
+            this.setState({user: res.data}, () => {
+                Storage.set('account', JSON.stringify(res.data)).then(() => {
+                    this.props.login(false)
+                    this.props.history.push('/course')
+                })
+            })
+        })
+    }
+
+
+
     sendRegister() {
         axios.post(API.register, this.state).then(({data}) => {
-            console.log('register result is', data)
+            if (data && data.username) {
+                this.setState({isLogin: true})
+            } else {alert('Запольните всех поля ')}
         })
     }
 
@@ -82,8 +112,8 @@ class Auth extends React.Component<any, any> {
                         </IonItem>
 
                         <IonItem lines="none" color={'dark'}>
-                            <IonInput value={this.state.login} placeholder="Ваш логин"
-                                      onIonChange={(e: any) => this.setState({login: e.detail.value})}
+                            <IonInput value={this.state.username} placeholder="Ваш логин"
+                                      onIonChange={(e: any) => this.setState({username: e.detail.value})}
                                       clearInput></IonInput>
                         </IonItem>
                         <IonItem lines="none" color={'dark'}>
@@ -94,7 +124,7 @@ class Auth extends React.Component<any, any> {
                                 clearInput></IonInput>
                         </IonItem>
                         <IonButton
-                            onClick={() => this.fakeAuth()}
+                            onClick={() => this.sendLogin()}
                             style={xStyle.btn} className={'login-btn'} color={'warning'} expand={'full'}>{loginTitle}</IonButton>
                     </IonContent>
                     :
@@ -104,8 +134,15 @@ class Auth extends React.Component<any, any> {
                                 style={{fontWeight: 'bold', fontSize: 30}}>{register}</IonLabel>
                         </IonItem>
                         <IonItem lines="none" color={'dark'}>
-                            <IonInput value={this.state.name} placeholder="Ваше имя"
-                                      onIonChange={(e: any) => this.setState({name: e.detail.value})}
+                            <IonInput value={this.state.first_name} placeholder="Ваше имя"
+                                      onIonChange={(e: any) => this.setState({first_name: e.detail.value})}
+                                      clearInput></IonInput>
+                        </IonItem>
+                        <IonItem lines="none" color={'dark'}>
+                            <IonInput
+                                type={'text'}
+                                value={this.state.last_name} placeholder="Ваша фамилия"
+                                      onIonChange={(e: any) => this.setState({last_name: e.detail.value})}
                                       clearInput></IonInput>
                         </IonItem>
                         <IonItem lines="none" color={'dark'}>
@@ -114,8 +151,8 @@ class Auth extends React.Component<any, any> {
                                       clearInput></IonInput>
                         </IonItem>
                         <IonItem lines="none" color={'dark'}>
-                            <IonInput value={this.state.login} placeholder="Ваш логин"
-                                      onIonChange={(e: any) => this.setState({login: e.detail.value})}
+                            <IonInput value={this.state.username} placeholder="Ваш логин"
+                                      onIonChange={(e: any) => this.setState({username: e.detail.value})}
                                       clearInput></IonInput>
                         </IonItem>
                         <IonItem lines="none" color={'dark'}>
@@ -134,7 +171,7 @@ class Auth extends React.Component<any, any> {
                         </IonItem>
 
                         <IonButton
-                            onClick={() => this.setState({isLogin: false})}
+                            onClick={() => this.sendRegister()}
                             style={xStyle.btn} className={'login-btn'} color={'warning'} expand={'full'}>{registerTitle}</IonButton>
                     </IonContent>
                 }

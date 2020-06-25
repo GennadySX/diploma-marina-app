@@ -11,6 +11,9 @@ import AuthPage from "../pages/Auth";
 import React from "react";
 import {heartCircleOutline, libraryOutline, personCircleOutline} from "ionicons/icons";
 import {Storage} from "../helpers/Storage";
+import Lessons from "../pages/Lessons";
+import AboutPage from "../pages/About";
+import PrivacyPage from "../pages/Privacy";
 
  class Routes extends React.Component<any, any> {
     constructor(props: any) {
@@ -36,8 +39,11 @@ import {Storage} from "../helpers/Storage";
                         <IonTabs>
                             <IonRouterOutlet>
                                 <Route path="/course" component={CoursePage} exact={true}/>
+                                <Route path="/lesson" component={Lessons} exact={true}/>
                                 <Route path="/profile" component={ProfilePage} exact={true}/>
                                 <Route path="/liked" component={LikedPage} exact={true}/>
+                                <Route path="/about" component={AboutPage} exact={true}/>
+                                <Route path="/privacy" component={PrivacyPage} exact={true}/>
                             </IonRouterOutlet>
                             <IonTabBar slot="bottom">
                                 <IonTabButton tab="course" href="/course">

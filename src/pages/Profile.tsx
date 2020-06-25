@@ -14,6 +14,9 @@ import {
     IonCardContent, IonAvatar,
 
 } from '@ionic/react';
+
+import {SocialSharing} from "@ionic-native/social-sharing";
+
 import {
     exitOutline, heart,
     pin,
@@ -25,6 +28,7 @@ import '../styles/Profile.sass'
 
 import {Plugins} from '@capacitor/core';
 import * as WebVPPlugin from 'capacitor-video-player';
+import {Storage} from "../helpers/Storage";
 
 
 //modules
@@ -35,17 +39,55 @@ const {CapacitorVideoPlayer} = Plugins;
 const img = require('../assets/js.png')
 
 
+
 class Profile extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
-        this.state = {}
+        this.state = {
+            account: null,
+            requestIn: false
+
+        }
+
+
+        Storage.get('account', (val:any) => {
+            if (val && val.value) {
+                this.setState({
+                    account: JSON.parse(val.value)
+                }, () =>{
+                    this.setState({
+                        account: JSON.parse(this.state.account)
+                    })
+                })
+            }})
+
+
+        console.log('props list', this.props)
+
     }
+
 
 
     async playIt() {
         const url = "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
         await CapacitorVideoPlayer.initPlayer({mode: "fullscreen", url: url});
     }
+
+    logout() {
+
+        Promise.all([Storage.clear()]).then(() => this.props.history.go('/'))
+
+    }
+
+    shareIt() {
+        // Check if sharing via email is supported
+        SocialSharing.canShareViaEmail().then(() => {
+
+        }).catch(() => {
+            // Sharing via email is not possible
+        });
+    }
+
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return (
@@ -54,45 +96,54 @@ class Profile extends React.Component<any, any> {
                     <IonToolbar>
                         <IonTitle>Профиль</IonTitle>
                         <IonButtons slot="primary">
-                            <IonButton onClick={() => this.playIt()}>
+                            <IonButton
+                            onClick={() => this.logout()}
+                            >
                                 <IonIcon size={'lg'} color={'danger'} slot="icon-only" ios={searchCircle}
                                          md={exitOutline}/>
                             </IonButton>
                         </IonButtons>
                     </IonToolbar>
                 </IonHeader>
-                <IonContent  className={'profile-content'} scrollY={false}>
+                <IonContent  className={'profile-content'} >
                     <img
                         onClick={() => console.log('clicked image')}
-                        className={'profile-image'} src={img}/>
-                    <IonCard style={{paddingTop: 50, paddingBottom: 25}}>
-                        <IonItem>
-                            <h3 style={{textAlign: 'center', width: '100%'}}>John Doe</h3>
-                        </IonItem>
-                        <IonItem>
-                            <p style={{textAlign: 'center', width: '100%'}}>Student</p>
-                        </IonItem>
-                    </IonCard>
+                        className={'profile-image'} src={img}
+                        style={{ marginBottom: 55}}
+                    />
+                    {this.state.account && this.state.account.first_name ?
+                        <IonCard style={{paddingTop: 50, paddingBottom: 25}}>
+                            <IonItem>
+                                <h3 style={{textAlign: 'center', width: '100%'}}>{this.state.account.first_name} {this.state.account.last_name}</h3>
+                            </IonItem>
+                            <IonItem>
+                                <p style={{textAlign: 'center', width: '100%'}}>Обучающийся</p>
+                            </IonItem>
+                        </IonCard> : null
+                    }
 
                     <IonContent style={{display: 'flex', justifyContent: 'center', textAlign: 'center'}}>
                         <IonCard style={{paddingTop: 15, paddingBottom: 15}}>
-                            <IonItem button>
-                                <h5 style={{textAlign: 'center', width: '100%'}}>Стать партнером</h5>
+                            <IonItem button
+                                     onClick={() => this.shareIt()}
+                            >
+                                <h5 style={{textAlign: 'center', width: '100%'}}>{!this.state.requestIn ? 'Создать урок' : 'Вам доступно админ панел'}</h5>
                             </IonItem>
-                            <IonItem button>
-                                <h5 style={{textAlign: 'center', width: '100%'}}>Рассказать друзей</h5>
+                            <IonItem button
+                                     onClick={() => this.shareIt()}
+                            >
+                                <h5 style={{textAlign: 'center', width: '100%'}}>Рассказать друзьям</h5>
                             </IonItem>
-                            <IonItem button>
+                            <IonItem button
+                                     onClick={() => this.props.history.push('privacy')}
+                            >
                                 <h5 style={{textAlign: 'center', width: '100%'}}>Права конфиденциальности</h5>
                             </IonItem>
-                            <IonItem button>
+                            <IonItem button
+                            onClick={() => this.props.history.push('about')}
+                            >
                                 <h5 style={{textAlign: 'center', width: '100%'}}>О нас</h5>
                             </IonItem>
-                            <IonItem button>
-                                <h5 style={{textAlign: 'center', width: '100%'}}>Github</h5>
-                            </IonItem>
-
-
                         </IonCard>
                     </IonContent>
 
