@@ -29,8 +29,8 @@ class AboutPage extends React.Component<any, any> {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
-                    <p>
-
+                    <p style={{padding: 15}}>
+                        Edubrains - образовательная платформа на которой представлены бесплатные онлайн-курсы в видео формате.
                     </p>
                 </IonContent>
             </IonPage>

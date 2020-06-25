@@ -4,8 +4,8 @@
 
 
 
-const origin = 'http://localhost:8000',
- api = 'http://localhost:8000/api'
+const origin = 'http://89.251.145.123:3001',
+ api = 'http://89.251.145.123:3001/api';
 
 export const API = {
     origin: origin,

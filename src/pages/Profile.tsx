@@ -11,11 +11,10 @@ import {
     IonCard,
     IonItem,
     IonLabel,
-    IonCardContent, IonAvatar,
+    IonCardContent, IonAlert,
 
 } from '@ionic/react';
 
-import {SocialSharing} from "@ionic-native/social-sharing";
 
 import {
     exitOutline, heart,
@@ -81,13 +80,12 @@ class Profile extends React.Component<any, any> {
 
     shareIt() {
         // Check if sharing via email is supported
-        SocialSharing.canShareViaEmail().then(() => {
 
-        }).catch(() => {
-            // Sharing via email is not possible
-        });
     }
 
+    setShowAlert3(s:boolean) {
+        this.setState({alert: s})
+    }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return (
@@ -125,10 +123,19 @@ class Profile extends React.Component<any, any> {
                     <IonContent style={{display: 'flex', justifyContent: 'center', textAlign: 'center'}}>
                         <IonCard style={{paddingTop: 15, paddingBottom: 15}}>
                             <IonItem button
-                                     onClick={() => this.shareIt()}
+                                     onClick={() => this.setShowAlert3(true)}
                             >
                                 <h5 style={{textAlign: 'center', width: '100%'}}>{!this.state.requestIn ? 'Создать урок' : 'Вам доступно админ панел'}</h5>
                             </IonItem>
+
+                            <IonAlert
+                                isOpen={this.state.alert}
+                                onDidDismiss={() => this.setShowAlert3(false)}
+                                cssClass='my-custom-class'
+                                header={'Запрос отправки'}
+                                message={'Вы уверены то что оптравляете запрос админу для того чтобы стать преподавателем. '}
+                                buttons={['Отменить', 'Отправить' ]}
+                            />
                             <IonItem button
                                      onClick={() => this.shareIt()}
                             >
