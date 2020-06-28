@@ -15,7 +15,7 @@ import Lessons from "../pages/Lessons";
 import AboutPage from "../pages/About";
 import PrivacyPage from "../pages/Privacy";
 
- class Routes extends React.Component<any, any> {
+class Routes extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -43,7 +43,7 @@ import PrivacyPage from "../pages/Privacy";
                                 <Route path="/profile" component={ProfilePage} exact={true}/>
                                 <Route path="/liked" component={LikedPage} exact={true}/>
                                 <Route path="/about" component={AboutPage} exact={true}/>
-                                <Route path="/privacy" component={PrivacyPage} exact={true}/>
+                                <Route path="/Privacy" component={PrivacyPage} exact={true}/>
                             </IonRouterOutlet>
                             <IonTabBar slot="bottom">
                                 <IonTabButton tab="course" href="/course">

@@ -4,8 +4,8 @@
 
 
 
-const origin = 'http://89.251.145.123:3001',
- api = 'http://89.251.145.123:3001/api';
+const origin = 'http://edubrains.gennadysx.com',
+ api = 'http://edubrains.gennadysx.com/api';
 
 export const API = {
     origin: origin,

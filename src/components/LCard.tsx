@@ -25,6 +25,8 @@ import {Plugins} from '@capacitor/core';
 import * as WebVPPlugin from 'capacitor-video-player';
 import {Storage} from "../helpers/Storage";
 
+import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media';
+
 const {CapacitorVideoPlayer} = Plugins;
 
 class LCard extends React.Component<any, any> {
@@ -50,8 +52,14 @@ class LCard extends React.Component<any, any> {
 
 
     async playIt(url:any) {
-        console.log('video is', url)
-        await CapacitorVideoPlayer.initPlayer({mode: "fullscreen", url: url});
+        let options: StreamingVideoOptions = {
+            successCallback: () => { console.log('Video played') },
+            errorCallback: (e:any) => { console.log('Error streaming') },
+            orientation: 'landscape',
+            controls: true
+        };
+        StreamingMedia.playVideo(url, options);
+        //await CapacitorVideoPlayer.initPlayer({mode: "fullscreen", url: url});
     }
 
 

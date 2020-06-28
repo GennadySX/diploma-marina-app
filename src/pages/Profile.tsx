@@ -10,10 +10,10 @@ import {
     IonToolbar,
     IonCard,
     IonItem,
-    IonLabel,
-    IonCardContent, IonAlert,
+    IonAlert,
 
 } from '@ionic/react';
+import {withRouter} from "react-router";
 
 
 import {
@@ -38,14 +38,12 @@ const {CapacitorVideoPlayer} = Plugins;
 const img = require('../assets/js.png')
 
 
-
 class Profile extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
             account: null,
             requestIn: false
-
         }
 
 
@@ -73,8 +71,7 @@ class Profile extends React.Component<any, any> {
     }
 
     logout() {
-
-        Promise.all([Storage.clear()]).then(() => this.props.history.go('/'))
+        Promise.all([Storage.clear()]).then(() => this.props.history.push('/auth'))
 
     }
 
@@ -160,4 +157,4 @@ class Profile extends React.Component<any, any> {
     }
 };
 
-export default Profile;
+export default withRouter(Profile);

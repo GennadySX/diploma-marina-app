@@ -9,10 +9,25 @@ const set = async (key: string, val: any, callback: any = null): Promise<void> =
     await Plugins.Storage.set({key: key, value: JSON.stringify(val)}).then(() => callback)
 }
 
-const get = async (key: string, callback: any = null): Promise<void> => {
-    const result: any = await Plugins.Storage.get({key: key});
-    callback(result)
+const get = async (key: string, callback: any = () => {}): Promise<void> => {
+    let result: any = null;
+    Promise.all([
+        result = await Plugins.Storage.get({key: key})
+    ]).then(() => {
+        //console.log('promise data ', result)
+        callback(result)
+    })
+
 }
+
+
+const getx = async (key: string) => {
+    return new Promise(async (resolve, reject) => {
+        resolve(await Plugins.Storage.get({key: key}))
+    }).then((res:any) =>  (res && res.value) ? res.value : null)
+
+}
+
 
 const remove = async (key: string): Promise<void> => {
     await Plugins.Storage.remove({key: 'name'});
@@ -31,6 +46,7 @@ const clear = async (): Promise<void> => {
 export const Storage = {
     set,
     get,
+    getx,
     remove,
     keys,
     clear

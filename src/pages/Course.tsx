@@ -22,7 +22,7 @@ import {courseList} from "../json/courseList";
 import {API} from "../util/API";
 import axios from 'axios'
 import {Storage} from "../helpers/Storage";
-
+import {withRouter} from "react-router";
 
 class CoursePage extends React.Component<any, any> {
     constructor(props: any) {
@@ -163,4 +163,4 @@ class CoursePage extends React.Component<any, any> {
     }
 };
 
-export default CoursePage;
+export default withRouter(CoursePage);

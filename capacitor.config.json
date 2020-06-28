@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "edubrains",
+  "appName": "EduBrains",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

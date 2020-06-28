@@ -17,24 +17,36 @@ class Liked extends React.Component<any, any>{
             fullList: null,
             likedList: null
         }
-
-        Storage.get('token', (result: any) =>
-            this.setState({token: JSON.parse(result.value)}, () => {
-                this.initIt()
-                this.likeIt()
-            }))
-
-        Storage.get('account', (val:any) => {
-            if (val && val.value) {
-                this.setState({
-                    account: JSON.parse(val.value)
-                }, () =>{
-                    this.setState({
-                        account: JSON.parse(this.state.account)
-                    })
-                })
-            }})
     }
+
+
+
+
+
+    componentDidMount(): void {
+        this.checkIt()
+    }
+
+
+    checkIt() {
+        Promise.all([
+            Storage.get('token', (result: any) =>
+                this.setState({token: JSON.parse(result.value)})),
+            Storage.get('account', (val:any) => {
+                if (val && val.value) {
+                    this.setState({
+                        account: JSON.parse(val.value)
+                    }, () =>{
+                        this.setState({
+                            account: JSON.parse(this.state.account)
+                        })
+                    })
+                }})
+        ]).then(() => {
+            this.initIt()
+            this.likeIt()
+        })
+        }
 
 
 

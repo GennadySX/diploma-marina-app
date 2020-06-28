@@ -5,6 +5,9 @@ import {IonContent, IonHeader, IonList, IonPage, IonTitle, IonToolbar,
 } from '@ionic/react';
 import {courseList} from "../json/courseList";
 import LCard from "../components/LCard";
+import {withRouter} from "react-router";
+
+
 
 class Lessons extends React.Component<any, any> {
     constructor(props: any) {
@@ -12,9 +15,6 @@ class Lessons extends React.Component<any, any> {
         this.state = {
 
         }
-
-
-
         console.log('props is', this.props)
     }
 
@@ -50,4 +50,4 @@ class Lessons extends React.Component<any, any> {
 
 };
 
-export default Lessons;
+export default withRouter(Lessons);
