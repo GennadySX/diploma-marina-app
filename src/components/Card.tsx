@@ -19,6 +19,7 @@ import axios from 'axios'
 import '../styles/components/card.sass'
 import {API} from "../util/API";
 import {Storage} from "../helpers/Storage";
+import {SocialSharing} from "@ionic-native/social-sharing";
 
 class Card extends React.Component<any, any> {
     constructor(props: any) {
@@ -68,6 +69,14 @@ class Card extends React.Component<any, any> {
         }
     }
 
+    shareIt(title:any) {
+        SocialSharing.share('https://edubrains.gennadysx.com/course'+title).then(() => {
+            // Success!
+        }).catch(() => {
+            // Error!
+        });
+
+    }
 
 
     render() {
@@ -98,7 +107,9 @@ class Card extends React.Component<any, any> {
                                         : <IonIcon icon={heart} slot="icon-only" ></IonIcon>
                                 }
                                     </IonButton>
-                                    <IonButton>
+                                    <IonButton
+                                    onClick={() => this.shareIt(this.props.title)}
+                                    >
                                     <IonIcon icon={share} slot="icon-only"></IonIcon>
                             </IonButton>
                         </IonButtons>

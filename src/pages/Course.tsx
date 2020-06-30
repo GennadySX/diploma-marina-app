@@ -100,8 +100,11 @@ class CoursePage extends React.Component<any, any> {
     }
 
 
+
+
+
     isLiked(course_id:any) {
-        return this.state.likedList.filter((liked:any) => liked.user_id === this.state.account.id && liked.course_id === course_id).length ?
+        return this.state.likedList && this.state.likedList.filter((liked:any) => liked.user_id === this.state.account.id && liked.course_id === course_id).length ?
             true : false
     }
 

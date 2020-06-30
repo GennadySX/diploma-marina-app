@@ -15,6 +15,8 @@ import {
 } from '@ionic/react';
 import {withRouter} from "react-router";
 
+import {SocialSharing} from "@ionic-native/social-sharing";
+
 
 import {
     exitOutline, heart,
@@ -62,21 +64,24 @@ class Profile extends React.Component<any, any> {
         console.log('props list', this.props)
 
     }
-
-
-
     async playIt() {
         const url = "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
         await CapacitorVideoPlayer.initPlayer({mode: "fullscreen", url: url});
     }
 
     logout() {
-        Promise.all([Storage.clear()]).then(() => this.props.history.push('/auth'))
+        Promise.all([Storage.clear()]).then(() => {
+            window.location.pathname = '/auth'
+        })
 
     }
 
     shareIt() {
-        // Check if sharing via email is supported
+        SocialSharing.share('https://edubrains.gennadysx.com/download').then(() => {
+            // Success!
+        }).catch(() => {
+            // Error!
+        });
 
     }
 
